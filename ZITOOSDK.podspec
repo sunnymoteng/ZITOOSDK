@@ -1,42 +1,40 @@
-#
-# Be sure to run `pod lib lint ZITOOSDK.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'ZITOOSDK'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of ZITOOSDK.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
+  s.summary          = 'easyPay ZITOOSDK.'
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  智慧支付  一键开启
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/ZITOOSDK'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'http://www.rtkj.com.cn'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'sunnymoteng' => '369074420@qq.com' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/ZITOOSDK.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
+  s.source           = { :git => 'https://github.com/sunnymoteng/ZITOOSDK.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
+  s.default_subspec = 'BaseCore', 'Alipay','WXPay'
 
-  s.source_files = 'ZITOOSDK/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'ZITOOSDK' => ['ZITOOSDK/Assets/*.png']
-  # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.subspec 'BaseCore' do |core|
+       core.source_files = 'lib/*.h'
+       core.public_header_files = 'lib/*.h'
+       core.vendored_libraries = 'lib/*.a'
+       core.frameworks = 'CFNetwork', 'SystemConfiguration', 'Security'
+       core.ios.library = 'c++', 'stdc++', 'z'
+       core.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC' }
+  end
+
+  s.subspec 'Alipay' do |ss|
+     ss.vendored_libraries = 'lib/Channels/AliPaySDK/*.a'
+     ss.ios.vendored_frameworks = 'lib/Channels/AliPaySDK/AlipaySDK.framework'
+     ss.resource = 'lib/Channels/AliPaySDK/AlipaySDK.bundle'
+     ss.frameworks = 'CoreMotion', 'CoreTelephony'
+     ss.dependency 'ZITOOSDK/BaseCore'
+  end
+
+  s.subspec 'Wx' do |wx|
+     wx.frameworks = 'CoreTelephony'
+     wx.vendored_libraries = 'lib/Channels/WeChatSDK/*.a'
+     wx.ios.library = 'sqlite3'
+     wx.dependency 'ZITOOSDK/BaseCore'
+  end
 end

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ZITOOSDK'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'easyPay ZITOOSDK.'
   s.description      = <<-DESC
   智慧支付  一键开启
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
      ss.dependency 'ZITOOSDK/BaseCore'
   end
 
-  s.subspec 'Wx' do |wx|
+  s.subspec 'WXPay' do |wx|
      wx.frameworks = 'CoreTelephony'
      wx.vendored_libraries = 'lib/Channels/WeChatSDK/*.a'
      wx.ios.library = 'sqlite3'

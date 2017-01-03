@@ -1,0 +1,6 @@
+use_frameworks!
+target 'ZITOOSDK_Tests' do
+  pod 'ZITOOSDK', :path => '../'
+  
+  
+end
